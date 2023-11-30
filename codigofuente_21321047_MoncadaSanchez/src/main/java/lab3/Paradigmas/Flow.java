@@ -48,4 +48,16 @@ public class Flow implements inFlow{
         return OpcionesClean;
     }
 
+    @Override
+    public void flowAddOption(Option option){
+        var code = option.getCode();
+        var OptionsCodes = this.getOptions().stream()
+                .map(Option::getCode)
+                .collect(Collectors.toList());
+        if (!OptionsCodes.contains(code)) {
+            var Options = this.getOptions();
+            Options.add(option);
+            this.setOptions(Options);
+        }
+    }
 }
