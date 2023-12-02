@@ -60,4 +60,17 @@ public class Chatbot implements inChatbot{
         return flowsClean;
     }
 
+    @Override
+    public void chatbotAddFlow(Flow flow){
+        var code = flow.getFlowId();
+        var OptionsCodes = this.getFlows().stream()
+                .map(Flow::getFlowId)
+                .collect(Collectors.toList());
+        if (!OptionsCodes.contains(code)) {
+            var Flows = this.getFlows();
+            Flows.add(flow);
+            this.setFlows(Flows);
+        }
+    }
+
     }
