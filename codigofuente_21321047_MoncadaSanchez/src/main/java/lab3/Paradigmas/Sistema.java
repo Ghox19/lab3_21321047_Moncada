@@ -103,5 +103,76 @@ public class Sistema implements inSistema {
     }
 
     public void setChatbots(ArrayList<Chatbot> chatbots) {
-        this.chatbots = chatbots;
+        this.chatbots = chatbots; }
+
+    @Override
+    public void systemAddChatbot(Chatbot chatbot) {
+        var code = chatbot.getChatbotId();
+        var ChatbotCodes = this.getChatbots().stream()
+                .map(Chatbot::getChatbotId)
+                .collect(Collectors.toList());
+        if (!ChatbotCodes.contains(code)) {
+            var Chatbots = this.getChatbots();
+            Chatbots.add(chatbot);
+            this.setChatbots(Chatbots);
+        }
     }
+
+    @Override
+    public void systemAddUser(String username) {
+        var users = this.getUsers();
+        User user = new User(username);
+        var newUsers = user.userVerify(users);
+        setUsers(newUsers);
+    }
+
+    @Override
+    public void systemLogin(String username){
+        List<String> existingUsernames = this.getUsers().stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+
+        if (existingUsernames.contains(username) && this.loggedUser == null) {
+            this.loggedUser = username;
+        }
+    }
+
+    @Override
+    public void systemLogout(){
+        if (this.loggedUser != null){
+            this.loggedUser = null;
+            this.getCurrentState().setActualChatbotCodeLink(this.getInitialChatbotCodeLink());
+            this.getCurrentState().setActualFlowCodeLink(this.getIntialFlowIdByChatbotList(this.getChatbots(), this.getInitialChatbotCodeLink()));
+        }
+    }
+
+    @Override
+    public void systemTalk(String message){
+        if (this.loggedUser != null){
+            boolean ChangeStatus = false;
+            var chatbot = this.getChatbotById(this.getCurrentState().getActualChatbotCodeLink());
+            if (chatbot != null){
+                var flow = chatbot.getFlowById(this.getCurrentState().getActualFlowCodeLink());
+                if (flow != null){
+                    if (Commons.esNumero(message)) {
+                        var option = flow.getOptionById(Integer.parseInt(message));
+                        if (option != null){
+                            this.setNewCurrentStateandChatHistory(option, message);
+                            ChangeStatus = true;
+                        }
+                    }else{
+                        var option = flow.getOptionByKeyword(message);
+                        if (option != null){
+                            this.setNewCurrentStateandChatHistory(option, message);
+                            ChangeStatus = true;
+                        }
+                    }
+                }
+            }
+            if (!ChangeStatus){
+                var messageChatHistory = new ChatHistory(this.loggedUser, message, this.getCurrentState().getActualChatbotCodeLink(), this.getCurrentState().getActualFlowCodeLink());
+                this.getChatHistory().add(messageChatHistory);
+            }
+        }
+    }
+}
