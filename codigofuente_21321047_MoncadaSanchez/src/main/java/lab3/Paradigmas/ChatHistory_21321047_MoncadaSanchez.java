@@ -3,14 +3,14 @@ package lab3.Paradigmas;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ChatHistory {
+public class ChatHistory_21321047_MoncadaSanchez implements inChatHistory_21321047_MoncadaSanchez {
     String fechaDeCreacion;
     String user;
     String message;
     int chatbotId;
     int flowId;
 
-    public ChatHistory(String user, String message, int chatbotId, int flowId) {
+    public ChatHistory_21321047_MoncadaSanchez(String user, String message, int chatbotId, int flowId) {
         this.fechaDeCreacion = generarFecha();
         this.user = user;
         this.message = message;
@@ -18,47 +18,58 @@ public class ChatHistory {
         this.flowId = flowId;
     }
 
+    @Override
     public String getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
+    @Override
     public void setFechaDeCreacion(String fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 
+    @Override
     public String getUser() {
         return user;
     }
 
+    @Override
     public void setUser(String user) {
         this.user = user;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public void setMessage(String message) {
         this.message = message;
     }
 
+    @Override
     public int getChatbotId() {
         return chatbotId;
     }
 
+    @Override
     public void setChatbotId(int chatbotId) {
         this.chatbotId = chatbotId;
     }
 
+    @Override
     public int getFlowId() {
         return flowId;
     }
 
+    @Override
     public void setFlowId(int flowId) {
         this.flowId = flowId;
     }
 
-    private String generarFecha() {
+    @Override
+    public String generarFecha() {
         Date fechaHoraActual = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yy HH:mm");
         String fechaFormateada = formatoFecha.format(fechaHoraActual);
@@ -66,7 +77,8 @@ public class ChatHistory {
         return fechaFormateada;
     }
 
-    public String messageFormat(Flow flow, Chatbot chatbot) {
+    @Override
+    public String messageFormat(Flow_21321047_MoncadaSanchez flow, Chatbot_21321047_MoncadaSanchez chatbot) {
         var fecha = this.getFechaDeCreacion();
         var user = this.getUser();
         var message = this.getMessage();
