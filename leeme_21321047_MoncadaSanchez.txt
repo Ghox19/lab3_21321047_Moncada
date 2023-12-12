@@ -1,0 +1,15 @@
+Laboratorio de Paradigmas de la programacion Usach 02/2023
+
+Ejecucion:
+
+Linux:
+./gradlew build
+
+./gradlew run
+
+Windows:
+gradlew.bat build
+
+gradlew.bat.run
+
+*Se agrego el UML por separado para una mejor vision sobre el, debido a su calidad en el informe
